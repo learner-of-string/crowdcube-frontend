@@ -6,6 +6,7 @@ import AddACampaign from "../Pages/AddCampaign/AddACampaign";
 import SignIn from "../Pages/auth/SignIn";
 import SignUp from "../Pages/auth/SignUp";
 import MyCampaigns from "../Pages/PrivateCampaigns/MyCampaigns";
+import PrivateRouter from "./PrivateRouter";
 
 const router = createBrowserRouter([
     {
@@ -22,7 +23,11 @@ const router = createBrowserRouter([
             },
             {
                 path: "/add-new-campaigns",
-                element: <AddACampaign />,
+                element: (
+                    <PrivateRouter>
+                        <AddACampaign />
+                    </PrivateRouter>
+                ),
             },
             {
                 path: "/sign-in",

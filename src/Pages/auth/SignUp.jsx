@@ -10,9 +10,8 @@ import { toast } from "sonner";
 import { AuthContext } from "../../Context/AuthContext";
 
 const SignUp = () => {
-    const { signUpUser, setUser } = useContext(AuthContext);
-
-    // TODO: implement sign up with email, password and other necessary stuffs
+    const { signUpUser, setUser, signInWithGooglePopUp } =
+        useContext(AuthContext);
 
     const signUpWithEmailPasswordAndOthers = (e) => {
         e.preventDefault();
@@ -23,6 +22,17 @@ const SignUp = () => {
         const phone = form.phone.value;
         const password = form.password.value;
         console.log(name, email, phone, password);
+
+        const hasUppercase = /[A-Z]/.test(password);
+        const hasLowercase = /[a-z]/.test(password);
+        const isValidLength = password.length >= 6;
+
+        if (!hasUppercase || !hasLowercase || !isValidLength) {
+            toast.error(
+                `Password must contain at least 6 characters, 1 uppercase letter, 1 special character and numbers`
+            );
+            return;
+        }
 
         signUpUser(email, password)
             .then((res) => {
@@ -39,7 +49,7 @@ const SignUp = () => {
                     .then((res) => res.json())
                     .then((data) => {
                         console.log("user created to db ", data);
-                        toast("Signed up successfully!");
+                        toast.success("Signed up successfully!");
                         form.reset();
                     });
             })
@@ -48,7 +58,17 @@ const SignUp = () => {
             });
     };
 
-    // TODO: implement sign up with google pop up
+    const continueWithGoogle = () => {
+        signInWithGooglePopUp()
+            .then((res) => {
+                console.log(res.user);
+                setUser(res?.user);
+                toast.success(`Signed up successfully!`);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
 
     return (
         <div className="flex flex-col min-h-screen">
@@ -121,10 +141,11 @@ const SignUp = () => {
                         </Button>
                     </div>
                 </form>
-                <div className="flex justify-center mt-10">
+                <div className="flex justify-center my-10">
                     <Button
                         variant="outline"
                         className="cursor-pointer hover:underline"
+                        onClick={continueWithGoogle}
                     >
                         <img
                             src={googleSvg}

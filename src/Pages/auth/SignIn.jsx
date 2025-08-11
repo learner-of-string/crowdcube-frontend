@@ -9,7 +9,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../Context/AuthContext";
 
 const SignIn = () => {
-    const { singInUser } = useContext(AuthContext);
+    const { singInUser, signInWithGooglePopUp } = useContext(AuthContext);
 
     const signInUserWithEmailAndPassword = (e) => {
         e.preventDefault();
@@ -27,7 +27,15 @@ const SignIn = () => {
             });
     };
 
-    // TODO: implement sign in with google pop up
+    const signInWithPopUpInToGoogle = () => {
+        signInWithGooglePopUp()
+            .then((res) => {
+                console.log(res.user);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
 
     return (
         <div className="flex flex-col min-h-screen">
@@ -81,6 +89,7 @@ const SignIn = () => {
                     <Button
                         variant="outline"
                         className="cursor-pointer hover:underline"
+                        onClick={signInWithPopUpInToGoogle}
                     >
                         <img
                             src={googleSvg}

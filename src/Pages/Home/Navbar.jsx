@@ -1,7 +1,17 @@
 import { Link, NavLink } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { useContext } from "react";
+import { AuthContext } from "../../Context/AuthContext";
+import defaultProfile from "@/assets/defaultProfile.svg";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const Navbar = () => {
+    const { user } = useContext(AuthContext);
+
     return (
         <nav className="flex justify-around items-center">
             <div>
@@ -18,9 +28,26 @@ const Navbar = () => {
                 <NavLink to={"/my-campaigns"}>My Campaigns</NavLink>
             </div>
             <div>
-                <Link to={"/sign-in"}>
-                    <Button className={`cursor-pointer`}>Sign In</Button>
-                </Link>
+                {user?.email ? (
+                    <Tooltip>
+                        <TooltipTrigger>
+                            <div>
+                                <img
+                                    src={user?.photoURL || defaultProfile}
+                                    alt=""
+                                    className="size-10"
+                                />
+                            </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            {user?.displayName || user?.email}
+                        </TooltipContent>
+                    </Tooltip>
+                ) : (
+                    <Link to={"/sign-in"}>
+                        <Button className={`cursor-pointer`}>Sign In</Button>
+                    </Link>
+                )}
             </div>
         </nav>
     );

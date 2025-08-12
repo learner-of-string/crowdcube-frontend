@@ -2,13 +2,17 @@ import googleSvg from "@/assets/google.svg";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Footer from "../Home/Footer";
 import Navbar from "../Home/Navbar";
 import { useContext } from "react";
 import { AuthContext } from "../../Context/AuthContext";
+import { toast } from "sonner";
 
 const SignIn = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
+
     const { singInUser, signInWithGooglePopUp } = useContext(AuthContext);
 
     const signInUserWithEmailAndPassword = (e) => {
@@ -31,6 +35,10 @@ const SignIn = () => {
         signInWithGooglePopUp()
             .then((res) => {
                 console.log(res.user);
+                if (res.user) {
+                    navigate(location.state ? location.state : "/");
+                    toast.success(`Signed in successfully!`);
+                }
             })
             .catch((error) => {
                 console.log(error);
@@ -40,7 +48,7 @@ const SignIn = () => {
     return (
         <div className="flex flex-col min-h-screen">
             <Navbar />
-            <div className="flex-grow">
+            <div className="grow">
                 <form
                     className="w-sm mx-auto space-y-5 mt-10 pb-10 border-b border-green-800/50"
                     onSubmit={signInUserWithEmailAndPassword}
@@ -85,7 +93,7 @@ const SignIn = () => {
                         </Button>
                     </div>
                 </form>
-                <div className="flex justify-center mt-10">
+                <div className="flex justify-center my-10">
                     <Button
                         variant="outline"
                         className="cursor-pointer hover:underline"

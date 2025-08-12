@@ -32,11 +32,13 @@ const Navbar = () => {
                     <Tooltip>
                         <TooltipTrigger>
                             <div>
-                                <img
-                                    src={user?.photoURL || defaultProfile}
-                                    alt=""
-                                    className="size-10"
-                                />
+                                <Link to={"/dashboard"}>
+                                    <img
+                                        src={user?.photoURL || defaultProfile}
+                                        alt=""
+                                        className="size-10 rounded-full object-cover"
+                                    />
+                                </Link>
                             </div>
                         </TooltipTrigger>
                         <TooltipContent>

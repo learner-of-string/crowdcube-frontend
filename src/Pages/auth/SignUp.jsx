@@ -5,13 +5,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { AuthContext } from "../../Context/AuthContext";
 
 const SignUp = () => {
-    const { signUpUser, setUser, signInWithGooglePopUp } =
-        useContext(AuthContext);
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const { signUpUser, signInWithGooglePopUp } = useContext(AuthContext);
 
     const signUpWithEmailPasswordAndOthers = (e) => {
         e.preventDefault();
@@ -37,8 +39,11 @@ const SignUp = () => {
         signUpUser(email, password)
             .then((res) => {
                 console.log(res.user);
-                setUser(res?.user);
-                const newUser = { name, email, phone };
+                const newUser = {
+                    name,
+                    email,
+                    phone,
+                };
                 fetch(`${import.meta.env.VITE_serverLink}/users`, {
                     method: "POST",
                     headers: {
@@ -49,7 +54,10 @@ const SignUp = () => {
                     .then((res) => res.json())
                     .then((data) => {
                         console.log("user created to db ", data);
-                        toast.success("Signed up successfully!");
+                        if (data?.insertedId) {
+                            navigate(location.state ? location.state : "/");
+                            toast.success("Signed up successfully!");
+                        }
                         form.reset();
                     });
             })
@@ -62,8 +70,27 @@ const SignUp = () => {
         signInWithGooglePopUp()
             .then((res) => {
                 console.log(res.user);
-                setUser(res?.user);
-                toast.success(`Signed up successfully!`);
+                const newUser = {
+                    name: res?.user?.displayName,
+                    email: res?.user?.email,
+                    photoURL: res?.user?.photoURL,
+                };
+
+                fetch(`${import.meta.env.VITE_serverLink}/users`, {
+                    method: "POST",
+                    headers: {
+                        "content-type": "application/json",
+                    },
+                    body: JSON.stringify(newUser),
+                })
+                    .then((res) => res.json())
+                    .then((data) => {
+                        console.log("user created to db ", data);
+                        if (data?.insertedId) {
+                            navigate(location.state ? location.state : "/");
+                            toast.success("Signed up successfully!");
+                        }
+                    });
             })
             .catch((error) => {
                 console.log(error);
@@ -73,7 +100,7 @@ const SignUp = () => {
     return (
         <div className="flex flex-col min-h-screen">
             <Navbar />
-            <div className="flex-grow">
+            <div className="grow">
                 <h1 className="text-5xl text-center font-semibold mt-16">
                     Sign Up Now!
                 </h1>

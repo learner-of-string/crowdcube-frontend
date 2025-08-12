@@ -11,7 +11,7 @@ const PrivateRouter = ({ children }) => {
         return (
             <div className="flex flex-col justify-center items-center">
                 <p className="text-2xl text-center">
-                    We're loading your cat for you
+                    We're loading cats for you
                 </p>
                 <p className="text-xl text-center">
                     Just wait until destroying this planet

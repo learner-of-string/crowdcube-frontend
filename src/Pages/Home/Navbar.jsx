@@ -12,6 +12,8 @@ import {
 const Navbar = () => {
     const { user } = useContext(AuthContext);
 
+    console.log(user);
+
     return (
         <nav className="flex justify-around items-center">
             <div>

@@ -13,17 +13,18 @@ const SignUp = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const { signUpUser, signInWithGooglePopUp } = useContext(AuthContext);
+    const { signUpUser, signInWithGooglePopUp, updateUserInformation } =
+        useContext(AuthContext);
 
     const signUpWithEmailPasswordAndOthers = (e) => {
         e.preventDefault();
 
         const form = e.target;
-        const name = form.name.value;
+        const displayName = form.name.value;
         const email = form.email.value;
-        const phone = form.phone.value;
+        const phoneNumber = form.phone.value;
         const password = form.password.value;
-        console.log(name, email, phone, password);
+        console.log(displayName, email, phoneNumber, password);
 
         const hasUppercase = /[A-Z]/.test(password);
         const hasLowercase = /[a-z]/.test(password);
@@ -40,26 +41,36 @@ const SignUp = () => {
             .then((res) => {
                 console.log(res.user);
                 const newUser = {
-                    name,
+                    displayName,
                     email,
-                    phone,
+                    phoneNumber,
                 };
-                fetch(`${import.meta.env.VITE_serverLink}/users`, {
-                    method: "POST",
-                    headers: {
-                        "content-type": "application/json",
-                    },
-                    body: JSON.stringify(newUser),
-                })
-                    .then((res) => res.json())
-                    .then((data) => {
-                        console.log("user created to db ", data);
-                        if (data?.insertedId) {
-                            navigate(location.state ? location.state : "/");
-                            toast.success("Signed up successfully!");
-                        }
-                        form.reset();
-                    });
+
+                updateUserInformation(newUser).then(() => {
+                    console.log(
+                        "user phone number, email and display name updated: ",
+                        res.user
+                    );
+                    navigate(location.state ? location.state : "/");
+                    toast.success("Signed up successfully!");
+                });
+
+                // fetch(`${import.meta.env.VITE_serverLink}/users`, {
+                //     method: "POST",
+                //     headers: {
+                //         "content-type": "application/json",
+                //     },
+                //     body: JSON.stringify(newUser),
+                // })
+                //     .then((res) => res.json())
+                //     .then((data) => {
+                //         console.log("user created to db ", data);
+                //         if (data?.insertedId) {
+                //             navigate(location.state ? location.state : "/");
+                //             toast.success("Signed up successfully!");
+                //         }
+                //         form.reset();
+                //     });
             })
             .catch((error) => {
                 console.log(error);
@@ -110,7 +121,8 @@ const SignUp = () => {
                 >
                     <div className="w-full">
                         <Label className="pl-4 mb-1" htmlFor="name">
-                            Your name
+                            Display Name (It will be used everywhere of
+                            Crowdcube)
                         </Label>
                         <Input
                             placeholder="Enter your name"

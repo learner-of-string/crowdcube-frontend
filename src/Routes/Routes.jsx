@@ -8,6 +8,7 @@ import SignUp from "../Pages/auth/SignUp";
 import MyCampaigns from "../Pages/PrivateCampaigns/MyCampaigns";
 import PrivateRouter from "./PrivateRouter";
 import Dashboard from "../Pages/Dashboard/Dashboard";
+import PreventedRouter from "./PreventedRoute";
 
 const router = createBrowserRouter([
     {
@@ -32,11 +33,19 @@ const router = createBrowserRouter([
             },
             {
                 path: "/sign-in",
-                element: <SignIn />,
+                element: (
+                    <PreventedRouter>
+                        <SignIn />
+                    </PreventedRouter>
+                ),
             },
             {
                 path: "/sign-up",
-                element: <SignUp />,
+                element: (
+                    <PreventedRouter>
+                        <SignUp />
+                    </PreventedRouter>
+                ),
             },
             {
                 path: "/my-campaigns",

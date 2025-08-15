@@ -8,13 +8,16 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../Context/AuthContext";
 
 const AddCampaignForm = () => {
     const [startingDatePickerOpen, setStartingDatePickerOpen] = useState(false);
     const [closingDatePickerOpen, setClosingDatePickerOpen] = useState(false);
     const [startingDate, setStartingDate] = useState(null);
     const [closingDate, setClosingDate] = useState(null);
+
+    const { user } = useContext(AuthContext);
 
     const handleAddCampaign = (e) => {
         e.preventDefault();
@@ -26,6 +29,9 @@ const AddCampaignForm = () => {
         const photoURL = form.photoURL.value;
         const location = form.location.value;
         const phoneNumber = form.phoneNumber.value;
+        const creatorName = form.creator.value;
+        const { email: creatorEmail } = user;
+
         const newCampaign = {
             campaignName,
             description,
@@ -35,9 +41,23 @@ const AddCampaignForm = () => {
             photoURL,
             location,
             phoneNumber,
+            creatorName,
+            creatorEmail,
         };
 
         console.log("adding new campaign", newCampaign);
+
+        fetch(`${import.meta.env.VITE_serverLink}/add-new-campaign`, {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify(newCampaign),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+            });
     };
 
     return (
@@ -192,6 +212,20 @@ const AddCampaignForm = () => {
                             required
                             name="phoneNumber"
                             className="meow"
+                        />
+                    </div>
+                </div>
+                <div>
+                    <div className="w-full">
+                        <Label className="pl-4 mb-1" htmlFor="creator">
+                            Creating by
+                        </Label>
+                        <Input
+                            placeholder="Your phone number with country code e.g: 8801234567890"
+                            type="text"
+                            required
+                            name="creator"
+                            defaultValue={user?.displayName}
                         />
                     </div>
                 </div>

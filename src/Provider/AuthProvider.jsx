@@ -10,6 +10,7 @@ import {
     signInWithPopup,
     signOut,
     updatePassword,
+    updateProfile,
 } from "firebase/auth";
 import { AuthContext } from "../Context/AuthContext";
 import { useEffect } from "react";
@@ -25,6 +26,11 @@ const AuthProvider = ({ children }) => {
     const signUpUser = (email, password) => {
         setIsLoading(true);
         return createUserWithEmailAndPassword(auth, email, password);
+    };
+
+    const updateUserInformation = (updatedUserInfo) => {
+        setIsLoading(true);
+        return updateProfile(auth.currentUser, updatedUserInfo);
     };
 
     const singInUser = (email, password) => {
@@ -60,6 +66,7 @@ const AuthProvider = ({ children }) => {
         resetPassword,
         resetForgottenPassword,
         signOutUser,
+        updateUserInformation,
     };
 
     useEffect(() => {
@@ -68,7 +75,7 @@ const AuthProvider = ({ children }) => {
             setIsLoading(false);
         });
         return unsubscribe;
-    }, []);
+    }, [user?.email]);
 
     return (
         <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>

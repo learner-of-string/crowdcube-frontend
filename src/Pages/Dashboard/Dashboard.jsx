@@ -36,8 +36,14 @@ const Dashboard = () => {
                     <p className="text-xl text-center">{user?.email}</p>
                     <p>{user?.phone}</p>
                 </div>
-                <div className="flex justify-center cursor-pointer">
-                    <Button onClick={kickOutUser}>Log Out</Button>
+                <div className="flex justify-center">
+                    <Button
+                        variant="destructive"
+                        className="cursor-pointer"
+                        onClick={kickOutUser}
+                    >
+                        Log Out
+                    </Button>
                 </div>
             </div>
             <Footer />

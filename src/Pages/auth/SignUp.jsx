@@ -22,9 +22,7 @@ const SignUp = () => {
         const form = e.target;
         const displayName = form.name.value;
         const email = form.email.value;
-        const phoneNumber = form.phone.value;
         const password = form.password.value;
-        console.log(displayName, email, phoneNumber, password);
 
         const hasUppercase = /[A-Z]/.test(password);
         const hasLowercase = /[a-z]/.test(password);
@@ -43,34 +41,11 @@ const SignUp = () => {
                 const newUser = {
                     displayName,
                     email,
-                    phoneNumber,
                 };
-
                 updateUserInformation(newUser).then(() => {
-                    console.log(
-                        "user phone number, email and display name updated: ",
-                        res.user
-                    );
                     navigate(location.state ? location.state : "/");
                     toast.success("Signed up successfully!");
                 });
-
-                // fetch(`${import.meta.env.VITE_serverLink}/users`, {
-                //     method: "POST",
-                //     headers: {
-                //         "content-type": "application/json",
-                //     },
-                //     body: JSON.stringify(newUser),
-                // })
-                //     .then((res) => res.json())
-                //     .then((data) => {
-                //         console.log("user created to db ", data);
-                //         if (data?.insertedId) {
-                //             navigate(location.state ? location.state : "/");
-                //             toast.success("Signed up successfully!");
-                //         }
-                //         form.reset();
-                //     });
             })
             .catch((error) => {
                 console.log(error);
@@ -81,27 +56,6 @@ const SignUp = () => {
         signInWithGooglePopUp()
             .then((res) => {
                 console.log(res.user);
-                const newUser = {
-                    name: res?.user?.displayName,
-                    email: res?.user?.email,
-                    photoURL: res?.user?.photoURL,
-                };
-
-                fetch(`${import.meta.env.VITE_serverLink}/users`, {
-                    method: "POST",
-                    headers: {
-                        "content-type": "application/json",
-                    },
-                    body: JSON.stringify(newUser),
-                })
-                    .then((res) => res.json())
-                    .then((data) => {
-                        console.log("user created to db ", data);
-                        if (data?.insertedId) {
-                            navigate(location.state ? location.state : "/");
-                            toast.success("Signed up successfully!");
-                        }
-                    });
             })
             .catch((error) => {
                 console.log(error);
@@ -141,18 +95,6 @@ const SignUp = () => {
                             type="email"
                             required
                             name="email"
-                        />
-                    </div>
-                    <div className="w-full">
-                        <Label className="pl-4 mb-1" htmlFor="password">
-                            Contact (if possible provide your whatsapp number)
-                        </Label>
-                        <Input
-                            placeholder="Your phone number with country code e.g: 8801234567890"
-                            type="number"
-                            className="meow"
-                            required
-                            name="phone"
                         />
                     </div>
                     <div className="w-full">

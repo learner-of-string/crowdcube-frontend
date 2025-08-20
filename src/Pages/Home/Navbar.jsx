@@ -12,8 +12,6 @@ import {
 const Navbar = () => {
     const { user } = useContext(AuthContext);
 
-    console.log(user);
-
     return (
         <nav className="flex justify-around items-center">
             <div>
@@ -25,7 +23,7 @@ const Navbar = () => {
             </div>
             <div className="flex items-center gap-5 text-xl">
                 <NavLink to={"/"}>Home</NavLink>
-                <NavLink to={"/all-campaigns"}>All Campaigns</NavLink>
+                <NavLink to={"/campaigns"}>All Campaigns</NavLink>
                 <NavLink to={"/add-new-campaigns"}>Add Campaigns</NavLink>
                 <NavLink to={"/my-campaigns"}>My Campaigns</NavLink>
             </div>

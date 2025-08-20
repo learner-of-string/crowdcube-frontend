@@ -9,6 +9,7 @@ import MyCampaigns from "../Pages/PrivateCampaigns/MyCampaigns";
 import PrivateRouter from "./PrivateRouter";
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import PreventedRouter from "./PreventedRoute";
+import CampaignDetails from "../Pages/AllCampaigns/CampaignDetails";
 
 const router = createBrowserRouter([
     {
@@ -20,7 +21,7 @@ const router = createBrowserRouter([
                 element: <Home />,
             },
             {
-                path: "/all-campaigns",
+                path: "/campaigns",
                 element: <AllCampaigns />,
             },
             {
@@ -62,6 +63,10 @@ const router = createBrowserRouter([
                         <Dashboard />
                     </PrivateRouter>
                 ),
+            },
+            {
+                path: "/campaigns/:id",
+                element: <CampaignDetails />,
             },
         ],
     },

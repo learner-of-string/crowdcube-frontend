@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const JoinOurCommunity = () => {
     return (
@@ -13,7 +14,7 @@ const JoinOurCommunity = () => {
                         and innovation
                     </span>
                     <span className="bg-white p-2 border border-white rounded-r-lg select-none cursor-pointer">
-                        Sign Up
+                        <Link to={"/sign-up"}>Sign Up</Link>
                     </span>
                 </p>
             </section>

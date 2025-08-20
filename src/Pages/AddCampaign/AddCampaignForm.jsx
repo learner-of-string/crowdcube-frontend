@@ -10,12 +10,16 @@ import {
 } from "@/components/ui/popover";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../Context/AuthContext";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 const AddCampaignForm = () => {
     const [startingDatePickerOpen, setStartingDatePickerOpen] = useState(false);
     const [closingDatePickerOpen, setClosingDatePickerOpen] = useState(false);
     const [startingDate, setStartingDate] = useState(null);
     const [closingDate, setClosingDate] = useState(null);
+
+    const navigate = useNavigate();
 
     const { user } = useContext(AuthContext);
 
@@ -35,8 +39,8 @@ const AddCampaignForm = () => {
         const newCampaign = {
             campaignName,
             description,
-            startingDate,
-            closingDate,
+            startingDate: new Date(startingDate),
+            closingDate: new Date(closingDate),
             goalAmount,
             photoURL,
             location,
@@ -44,8 +48,6 @@ const AddCampaignForm = () => {
             creatorName,
             creatorEmail,
         };
-
-        console.log("adding new campaign", newCampaign);
 
         fetch(`${import.meta.env.VITE_serverLink}/add-new-campaign`, {
             method: "POST",
@@ -56,7 +58,16 @@ const AddCampaignForm = () => {
         })
             .then((res) => res.json())
             .then((data) => {
-                console.log(data);
+                if (data.insertedId) {
+                    toast.success(
+                        "🧟‍♂️Campaign added failed to failed successfully!"
+                    );
+                    navigate("/");
+                    form.reset();
+                }
+            })
+            .catch((error) => {
+                console.log(error);
             });
     };
 

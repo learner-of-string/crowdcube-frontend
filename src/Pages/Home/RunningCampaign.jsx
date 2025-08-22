@@ -66,7 +66,6 @@ const RunningCampaign = () => {
                                         </span>
                                     )}
                                 </p>
-
                                 <div className="flex items-center justify-between mt-2">
                                     <p>
                                         Location:{" "}

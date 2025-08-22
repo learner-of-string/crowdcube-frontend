@@ -24,7 +24,7 @@ const Navbar = () => {
             <div className="flex items-center gap-5 text-xl">
                 <NavLink to={"/"}>Home</NavLink>
                 <NavLink to={"/campaigns"}>All Campaigns</NavLink>
-                <NavLink to={"/add-new-campaigns"}>Add Campaigns</NavLink>
+                <NavLink to={"/campaigns/new"}>Add Campaigns</NavLink>
                 <NavLink to={"/my-campaigns"}>My Campaigns</NavLink>
             </div>
             <div>

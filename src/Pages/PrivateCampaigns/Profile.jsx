@@ -7,6 +7,7 @@ import {
 import { useContext } from "react";
 import { AuthContext } from "../../Context/AuthContext";
 import defaultProfile from "@/assets/defaultProfile.svg";
+import { Link } from "react-router-dom";
 
 const Profile = () => {
     const { user } = useContext(AuthContext);
@@ -25,7 +26,9 @@ const Profile = () => {
             <div>
                 <Tooltip>
                     <TooltipTrigger>
-                        <SquarePen />
+                        <Link to={"/dashboard"}>
+                            <SquarePen />
+                        </Link>
                     </TooltipTrigger>
                     <TooltipContent>
                         <span className="text-sm">Update Profile</span>

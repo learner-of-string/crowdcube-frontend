@@ -33,8 +33,9 @@ const AddCampaignForm = () => {
         const photoURL = form.photoURL.value;
         const location = form.location.value;
         const phoneNumber = form.phoneNumber.value;
-        const creatorName = form.creator.value;
-        const { email: creatorEmail } = user;
+        const creatorName = form.creatorName.value;
+        const creatorEmail = form.creatorEmail.value;
+        const collectedTillNow = 0;
 
         const newCampaign = {
             campaignName,
@@ -47,6 +48,7 @@ const AddCampaignForm = () => {
             phoneNumber,
             creatorName,
             creatorEmail,
+            collectedTillNow,
         };
 
         fetch(`${import.meta.env.VITE_serverLink}/add-new-campaign`, {
@@ -226,17 +228,29 @@ const AddCampaignForm = () => {
                         />
                     </div>
                 </div>
-                <div>
+                <div className="flex gap-8">
                     <div className="w-full">
-                        <Label className="pl-4 mb-1" htmlFor="creator">
+                        <Label className="pl-4 mb-1" htmlFor="creatorName">
                             Creating by
                         </Label>
                         <Input
-                            placeholder="Your phone number with country code e.g: 8801234567890"
+                            placeholder="Your Name"
                             type="text"
                             required
-                            name="creator"
+                            name="creatorName"
                             defaultValue={user?.displayName}
+                        />
+                    </div>
+                    <div className="w-full">
+                        <Label className="pl-4 mb-1" htmlFor="creatorEmail">
+                            Creator Email
+                        </Label>
+                        <Input
+                            placeholder="Your email"
+                            type="email"
+                            required
+                            name="creatorEmail"
+                            defaultValue={user?.email}
                         />
                     </div>
                 </div>

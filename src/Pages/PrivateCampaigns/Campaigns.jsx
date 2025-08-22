@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useContext } from "react";
 import { AuthContext } from "../../Context/AuthContext";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const Campaigns = () => {
     const { user } = useContext(AuthContext);
@@ -34,6 +35,7 @@ const Campaigns = () => {
                             alt=""
                             className="size-40 rounded-3xl object-cover"
                         />
+
                         <div>
                             <h1 className="text-2xl font-semibold py-2">
                                 {campaign?.campaignName}
@@ -63,7 +65,9 @@ const Campaigns = () => {
                                     variant="link"
                                     className="cursor-pointer"
                                 >
-                                    Check Details
+                                    <Link to={`/campaigns/${campaign._id}`}>
+                                        Check Details
+                                    </Link>
                                 </Button>
                             </span>
                         </div>

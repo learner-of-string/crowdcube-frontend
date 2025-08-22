@@ -10,6 +10,7 @@ import PrivateRouter from "./PrivateRouter";
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import PreventedRouter from "./PreventedRoute";
 import CampaignDetails from "../Pages/AllCampaigns/CampaignDetails";
+import UpdateCampaign from "../Pages/AllCampaigns/UpdateCampaign";
 
 const router = createBrowserRouter([
     {
@@ -25,7 +26,7 @@ const router = createBrowserRouter([
                 element: <AllCampaigns />,
             },
             {
-                path: "/add-new-campaigns",
+                path: "/campaigns/new",
                 element: (
                     <PrivateRouter>
                         <AddACampaign />
@@ -66,7 +67,19 @@ const router = createBrowserRouter([
             },
             {
                 path: "/campaigns/:id",
-                element: <CampaignDetails />,
+                element: (
+                    <PrivateRouter>
+                        <CampaignDetails />
+                    </PrivateRouter>
+                ),
+            },
+            {
+                path: "/campaigns/:id/edit",
+                element: (
+                    <PrivateRouter>
+                        <UpdateCampaign />
+                    </PrivateRouter>
+                ),
             },
         ],
     },

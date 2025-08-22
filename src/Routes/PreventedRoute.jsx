@@ -6,7 +6,7 @@ const PreventedRouter = ({ children }) => {
     const { user } = useContext(AuthContext);
 
     if (user?.email) {
-        return <Navigate to={"/"} />;
+        return <Navigate to={"/dashboard"} />;
     }
 
     return children;

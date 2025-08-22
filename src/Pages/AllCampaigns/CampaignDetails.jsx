@@ -1,14 +1,30 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Footer from "../Home/Footer";
 import Navbar from "../Home/Navbar";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useEffect } from "react";
 import { Goal, MapPin } from "lucide-react";
+import { Button } from "@/components/ui/Button";
+import { AuthContext } from "../../Context/AuthContext";
+import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
 
 const CampaignDetails = () => {
     const [currentCampaign, setCurrentCampaign] = useState(null);
     const [isRunning, setIsRunning] = useState(false);
     const { id } = useParams();
+    const { user } = useContext(AuthContext);
 
     useEffect(() => {
         fetch(`${import.meta.env.VITE_serverLink}/campaigns/${id}`)
@@ -24,7 +40,30 @@ const CampaignDetails = () => {
             .catch((error) => console.log(error));
     }, [id]);
 
-    console.log(currentCampaign);
+    const handleDonate = (e) => {
+        e.preventDefault();
+
+        const amount = e.target.amount.value;
+        console.log(amount); //here
+
+        fetch(`${import.meta.env.VITE_serverLink}/update-collected`, {
+            method: "PATCH",
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify({ id, amount }),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+                if (data.modifiedCount > 0) {
+                    toast.success("Donation Successful!");
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
 
     return (
         <div className="flex flex-col min-h-screen">
@@ -94,6 +133,51 @@ const CampaignDetails = () => {
                         <p>Phone Number: {currentCampaign?.phoneNumber}</p>
                         <p>Email: {currentCampaign?.creatorEmail}</p>
                     </div>
+                </div>
+                <div className="flex justify-center my-3">
+                    {user?.email === currentCampaign?.creatorEmail ? (
+                        <Button className="rounded-full cursor-pointer" asChild>
+                            <Link
+                                to={`/campaigns/${currentCampaign?._id}/edit`}
+                            >
+                                Edit This Campaign
+                            </Link>
+                        </Button>
+                    ) : (
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <Button>Donate to this campaign</Button>
+                            </DialogTrigger>
+                            <DialogContent>
+                                <form onSubmit={handleDonate}>
+                                    <DialogHeader>
+                                        <DialogTitle>
+                                            How much BDT are you donating?
+                                        </DialogTitle>
+                                    </DialogHeader>
+                                    <div className="my-4">
+                                        <Input
+                                            placeholder="Enter your amount"
+                                            type="number"
+                                            name="amount"
+                                        />
+                                    </div>
+                                    <DialogFooter className="flex justify-end gap-2">
+                                        <DialogClose asChild>
+                                            <Button variant="outline">
+                                                Cancel
+                                            </Button>
+                                        </DialogClose>
+                                        <DialogClose>
+                                            <Button type="submit">
+                                                Confirm Donate
+                                            </Button>
+                                        </DialogClose>
+                                    </DialogFooter>
+                                </form>
+                            </DialogContent>
+                        </Dialog>
+                    )}
                 </div>
             </div>
             <Footer />

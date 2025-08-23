@@ -2,13 +2,19 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { Vortex } from "react-loader-spinner";
 
 const RunningCampaign = () => {
     const [runningCampaigns, setRunningCampaigns] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+
     useEffect(() => {
         fetch(`${import.meta.env.VITE_serverLink}/running-campaigns`)
             .then((res) => res.json())
-            .then((data) => setRunningCampaigns(data))
+            .then((data) => {
+                setRunningCampaigns(data);
+                setIsLoading(false);
+            })
             .catch((error) => console.log(error));
     }, []);
 
@@ -24,6 +30,29 @@ const RunningCampaign = () => {
 
         return remainingDays;
     };
+
+    if (isLoading) {
+        return (
+            <div className="w-full h-1/2 flex justify-center items-center">
+                <Vortex
+                    visible={true}
+                    height="300"
+                    width="300"
+                    ariaLabel="vortex-loading"
+                    wrapperStyle={{}}
+                    wrapperClass="vortex-wrapper"
+                    colors={[
+                        "#22c55e",
+                        "#16a34a",
+                        "#15803d",
+                        "#86efac",
+                        "#a3e635",
+                        "#facc15",
+                    ]}
+                />
+            </div>
+        );
+    }
 
     return (
         <div className="w-11/12 mx-auto space-y-5">

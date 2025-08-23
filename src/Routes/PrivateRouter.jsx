@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../Context/AuthContext";
+import { Vortex } from "react-loader-spinner";
 
 const PrivateRouter = ({ children }) => {
     const { user, isLoading } = useContext(AuthContext);
@@ -9,13 +10,23 @@ const PrivateRouter = ({ children }) => {
 
     if (isLoading) {
         return (
-            <div className="flex flex-col justify-center items-center">
-                <p className="text-2xl text-center">
-                    We're loading cats for you
-                </p>
-                <p className="text-xl text-center">
-                    Just wait until destroying this planet
-                </p>
+            <div className="w-full h-1/2 flex justify-center items-center">
+                <Vortex
+                    visible={true}
+                    height="300"
+                    width="300"
+                    ariaLabel="vortex-loading"
+                    wrapperStyle={{}}
+                    wrapperClass="vortex-wrapper"
+                    colors={[
+                        "#22c55e",
+                        "#16a34a",
+                        "#15803d",
+                        "#86efac",
+                        "#a3e635",
+                        "#facc15",
+                    ]}
+                />
             </div>
         );
     }

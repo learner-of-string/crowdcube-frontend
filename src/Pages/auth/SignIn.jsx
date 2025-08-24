@@ -34,7 +34,6 @@ const SignIn = () => {
     const signInWithPopUpInToGoogle = () => {
         signInWithGooglePopUp()
             .then((res) => {
-                console.log(res.user);
                 if (res.user) {
                     navigate(location.state ? location.state : "/");
                     toast.success(`Signed in successfully!`);

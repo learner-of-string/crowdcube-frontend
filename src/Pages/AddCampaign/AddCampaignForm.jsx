@@ -1,23 +1,33 @@
-import { Input } from "@/components/ui/input";
-import { ChevronDownIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuLabel,
+    DropdownMenuRadioGroup,
+    DropdownMenuRadioItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
     Popover,
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
+import { ChevronDownIcon } from "lucide-react";
 import { useContext, useState } from "react";
-import { AuthContext } from "../../Context/AuthContext";
-import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import { AuthContext } from "../../Context/AuthContext";
 
 const AddCampaignForm = () => {
     const [startingDatePickerOpen, setStartingDatePickerOpen] = useState(false);
     const [closingDatePickerOpen, setClosingDatePickerOpen] = useState(false);
     const [startingDate, setStartingDate] = useState(null);
     const [closingDate, setClosingDate] = useState(null);
+    const [campaignType, setCampaignType] = useState(null);
 
     const navigate = useNavigate();
 
@@ -35,7 +45,9 @@ const AddCampaignForm = () => {
         const phoneNumber = form.phoneNumber.value;
         const creatorName = form.creatorName.value;
         const creatorEmail = form.creatorEmail.value;
-        const collectedTillNow = 0;
+        const minAmount = form.minAmount.value;
+
+        if (campaignType === null) setCampaignType("Others");
 
         const newCampaign = {
             campaignName,
@@ -48,7 +60,9 @@ const AddCampaignForm = () => {
             phoneNumber,
             creatorName,
             creatorEmail,
-            collectedTillNow,
+            collectedYet: 0,
+            minAmount,
+            campaignType,
         };
 
         fetch(`${import.meta.env.VITE_serverLink}/add-new-campaign`, {
@@ -72,6 +86,29 @@ const AddCampaignForm = () => {
                 console.log(error);
             });
     };
+
+    const campaignTypes = [
+        {
+            _id: 1,
+            type: "Personal Issue",
+        },
+        {
+            _id: 2,
+            type: "Startup",
+        },
+        {
+            _id: 3,
+            type: "Business",
+        },
+        {
+            _id: 4,
+            type: "Creative Ideas",
+        },
+        {
+            _id: 5,
+            type: "Others",
+        },
+    ];
 
     return (
         <div className="my-10 w-11/12 mx-auto">
@@ -189,6 +226,18 @@ const AddCampaignForm = () => {
                         />
                     </div>
                     <div className="w-full">
+                        <Label className="pl-4 mb-1" htmlFor="minAmount">
+                            Donator will donate at least this amount
+                        </Label>
+                        <Input
+                            placeholder="Minimum Donation Amount"
+                            type="number"
+                            name="minAmount"
+                        />
+                    </div>
+                </div>
+                <div className="flex gap-8">
+                    <div className="w-full">
                         <Label className="pl-4 mb-1" htmlFor="photo-url">
                             Banner Image (Provide your photo url)
                         </Label>
@@ -198,6 +247,37 @@ const AddCampaignForm = () => {
                             required
                             name="photoURL"
                         />
+                    </div>
+                    <div className="w-full">
+                        <Label className="pl-4 mb-1" htmlFor="photo-url">
+                            Campaign Type
+                        </Label>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <div className="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive">
+                                    {campaignType || "Campaign Type"}
+                                </div>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent>
+                                <DropdownMenuLabel>
+                                    Choose your campaign type
+                                </DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuRadioGroup
+                                    value={campaignType}
+                                    onValueChange={setCampaignType}
+                                >
+                                    {campaignTypes.map((type) => (
+                                        <DropdownMenuRadioItem
+                                            value={type.type}
+                                            key={type._id}
+                                        >
+                                            {type.type}
+                                        </DropdownMenuRadioItem>
+                                    ))}
+                                </DropdownMenuRadioGroup>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                     </div>
                 </div>
                 <div className="flex gap-8">

@@ -31,7 +31,7 @@ const Profile = () => {
                         </Link>
                     </TooltipTrigger>
                     <TooltipContent>
-                        <span className="text-sm">Update Profile</span>
+                        <span className="text-sm">Dashboard</span>
                     </TooltipContent>
                 </Tooltip>
             </div>

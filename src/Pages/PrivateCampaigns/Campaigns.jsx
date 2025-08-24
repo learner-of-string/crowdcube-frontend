@@ -60,16 +60,18 @@ const Campaigns = () => {
                                     </span>
                                 )}
                             </p>
-                            <span>
-                                <Button
-                                    variant="link"
-                                    className="cursor-pointer"
-                                >
-                                    <Link to={`/campaigns/${campaign._id}`}>
-                                        Check Details
-                                    </Link>
-                                </Button>
-                            </span>
+                            <div>
+                                <span>
+                                    <Button
+                                        variant="link"
+                                        className="cursor-pointer"
+                                    >
+                                        <Link to={`/campaigns/${campaign._id}`}>
+                                            Check Details
+                                        </Link>
+                                    </Button>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 ))}

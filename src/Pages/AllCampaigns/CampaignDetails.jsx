@@ -1,36 +1,52 @@
-import { Link, useParams } from "react-router-dom";
-import Footer from "../Home/Footer";
-import Navbar from "../Home/Navbar";
-import { useContext, useState } from "react";
-import { useEffect } from "react";
-import { Goal, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { AuthContext } from "../../Context/AuthContext";
 import {
     Dialog,
     DialogClose,
     DialogContent,
-    DialogDescription,
     DialogFooter,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Asterisk, Goal, MapPin } from "lucide-react";
+import { useContext, useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
+import { AuthContext } from "../../Context/AuthContext";
+import Footer from "../Home/Footer";
+import Navbar from "../Home/Navbar";
+import TypeIdentifier from "./TypeIdentifier";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 const CampaignDetails = () => {
     const [currentCampaign, setCurrentCampaign] = useState(null);
     const [isRunning, setIsRunning] = useState(false);
+    const [donationToCurrentCampaign, setDonationToCurrentCampaign] =
+        useState(null);
+
     const { id } = useParams();
     const { user } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetch(`${import.meta.env.VITE_serverLink}/campaigns/${id}`)
             .then((res) => res.json())
             .then((data) => {
-                setCurrentCampaign(data);
+                setCurrentCampaign({
+                    ...data,
+                    collectedYet: data.collectedYet || 0,
+                });
                 if (Date.now() > new Date(data?.closingDate).getTime()) {
                     setIsRunning(false);
                 } else {
@@ -43,25 +59,48 @@ const CampaignDetails = () => {
     const handleDonate = (e) => {
         e.preventDefault();
 
-        const amount = e.target.amount.value;
-        console.log(amount); //here
-
         fetch(`${import.meta.env.VITE_serverLink}/update-collected`, {
             method: "PATCH",
             headers: {
                 "content-type": "application/json",
             },
-            body: JSON.stringify({ id, amount }),
+            body: JSON.stringify({ id, amount: donationToCurrentCampaign }),
         })
             .then((res) => res.json())
             .then((data) => {
-                console.log(data);
                 if (data.modifiedCount > 0) {
                     toast.success("Donation Successful!");
+                    setCurrentCampaign((prev) => ({
+                        ...prev,
+                        collectedYet:
+                            prev.collectedYet + donationToCurrentCampaign,
+                    }));
+                    setDonationToCurrentCampaign("");
                 }
             })
             .catch((error) => {
                 console.log(error);
+            });
+    };
+
+    const handleDelete = () => {
+        fetch(`${import.meta.env.VITE_serverLink}/campaigns`, {
+            method: "DELETE",
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify({ id: currentCampaign?._id }),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.deletedCount > 0) {
+                    toast.success("Deleted Successfully!");
+                    navigate("/campaigns");
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+                toast.error("Some error occurred!");
             });
     };
 
@@ -78,6 +117,9 @@ const CampaignDetails = () => {
                         />
                     </div>
                     <div className="space-y-4 text-xl">
+                        <TypeIdentifier
+                            campType={currentCampaign?.campaignType || "Others"}
+                        />
                         <h1 className="text-3xl font-medium">
                             {currentCampaign?.campaignName}
                         </h1>
@@ -97,6 +139,20 @@ const CampaignDetails = () => {
                                 Goal Amount:
                             </span>
                             <span> {currentCampaign?.goalAmount} BDT</span>
+                        </p>
+                        <p className="flex">
+                            <span className="flex">
+                                <Goal className="text-amber-400 font-bold" />{" "}
+                                Collected Yet:
+                            </span>
+                            <span> {currentCampaign?.collectedYet} BDT</span>
+                        </p>
+                        <p className="flex">
+                            <span className="flex">
+                                <Asterisk className="text-rose-500 font-bold" />
+                                Minimum Donation:
+                            </span>
+                            <span>{currentCampaign?.minAmount || 1} BDT</span>
                         </p>
                         <p>
                             Status:{" "}
@@ -136,13 +192,52 @@ const CampaignDetails = () => {
                 </div>
                 <div className="flex justify-center my-3">
                     {user?.email === currentCampaign?.creatorEmail ? (
-                        <Button className="rounded-full cursor-pointer" asChild>
-                            <Link
-                                to={`/campaigns/${currentCampaign?._id}/edit`}
+                        <div className="space-x-10">
+                            <AlertDialog>
+                                <AlertDialogTrigger asChild>
+                                    <Button
+                                        className="rounded-full cursor-pointer"
+                                        variant="destructive"
+                                    >
+                                        Delete Campaign
+                                    </Button>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                        <AlertDialogTitle>
+                                            emm are you surely sure?
+                                        </AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                            This action cannot be undone. This
+                                            will permanently delete your account
+                                            and remove your data from our
+                                            servers. So be careful.
+                                        </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                        <AlertDialogCancel>
+                                            Cancel
+                                        </AlertDialogCancel>
+                                        <AlertDialogAction
+                                            onClick={handleDelete}
+                                            className="bg-red-600"
+                                        >
+                                            Yes Delete!
+                                        </AlertDialogAction>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog>
+                            <Button
+                                className="rounded-full cursor-pointer"
+                                asChild
                             >
-                                Edit This Campaign
-                            </Link>
-                        </Button>
+                                <Link
+                                    to={`/campaigns/${currentCampaign?._id}/edit`}
+                                >
+                                    Edit This Campaign
+                                </Link>
+                            </Button>
+                        </div>
                     ) : (
                         <Dialog>
                             <DialogTrigger asChild>
@@ -157,9 +252,14 @@ const CampaignDetails = () => {
                                     </DialogHeader>
                                     <div className="my-4">
                                         <Input
-                                            placeholder="Enter your amount"
+                                            placeholder={`Enter your donation amount; minimum ${currentCampaign?.minAmount} BDT`}
                                             type="number"
-                                            name="amount"
+                                            value={donationToCurrentCampaign}
+                                            onChange={(e) =>
+                                                setDonationToCurrentCampaign(
+                                                    Number(e.target.value)
+                                                )
+                                            }
                                         />
                                     </div>
                                     <DialogFooter className="flex justify-end gap-2">
@@ -168,11 +268,16 @@ const CampaignDetails = () => {
                                                 Cancel
                                             </Button>
                                         </DialogClose>
-                                        <DialogClose>
-                                            <Button type="submit">
-                                                Confirm Donate
-                                            </Button>
-                                        </DialogClose>
+                                        {donationToCurrentCampaign >=
+                                            Number(
+                                                currentCampaign?.minAmount
+                                            ) && (
+                                            <DialogClose asChild>
+                                                <Button type="submit">
+                                                    Confirm Donate
+                                                </Button>
+                                            </DialogClose>
+                                        )}
                                     </DialogFooter>
                                 </form>
                             </DialogContent>

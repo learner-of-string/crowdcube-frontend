@@ -1,5 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuLabel,
+    DropdownMenuRadioGroup,
+    DropdownMenuRadioItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -8,11 +17,11 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import { ChevronDownIcon } from "lucide-react";
-import Footer from "../Home/Footer";
-import Navbar from "../Home/Navbar";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
+import Footer from "../Home/Footer";
+import Navbar from "../Home/Navbar";
 
 const UpdateCampaign = () => {
     const [startingDatePickerOpen, setStartingDatePickerOpen] = useState(false);
@@ -20,8 +29,32 @@ const UpdateCampaign = () => {
     const [startingDate, setStartingDate] = useState(null);
     const [closingDate, setClosingDate] = useState(null);
     const [currentCampaign, setCurrentCampaign] = useState(null);
+    const [campaignType, setCampaignType] = useState(null);
 
     const navigate = useNavigate();
+
+    const campaignTypes = [
+        {
+            _id: 1,
+            type: "Personal Issue",
+        },
+        {
+            _id: 2,
+            type: "Startup",
+        },
+        {
+            _id: 3,
+            type: "Business",
+        },
+        {
+            _id: 4,
+            type: "Creative Ideas",
+        },
+        {
+            _id: 5,
+            type: "Others",
+        },
+    ];
 
     const { id } = useParams();
 
@@ -32,6 +65,7 @@ const UpdateCampaign = () => {
                 setCurrentCampaign(data);
                 setStartingDate(new Date(data?.startingDate));
                 setClosingDate(new Date(data?.closingDate));
+                setCampaignType(data?.campaignType);
             });
     }, [id]);
 
@@ -47,6 +81,7 @@ const UpdateCampaign = () => {
         const phoneNumber = form.phoneNumber.value;
         const creatorName = form.creatorName.value;
         const creatorEmail = form.creatorEmail.value;
+        const minAmount = form.minAmount.value;
 
         const editedCampaign = {
             campaignName,
@@ -59,7 +94,11 @@ const UpdateCampaign = () => {
             phoneNumber,
             creatorName,
             creatorEmail,
+            minAmount,
+            campaignType,
         };
+
+        console.log(editedCampaign);
 
         fetch(`${import.meta.env.VITE_serverLink}/campaigns/${id}`, {
             method: "PUT",
@@ -71,9 +110,8 @@ const UpdateCampaign = () => {
             .then((res) => res.json())
             .then((data) => {
                 if (data.modifiedCount > 0) {
-                    navigate(`/campaigns/${id}`);
-                    form.reset();
                     toast.success(`Campaign Edited Successfully!`);
+                    navigate(`/campaigns/${id}`);
                 }
             })
             .catch((error) => {
@@ -222,6 +260,24 @@ const UpdateCampaign = () => {
                             <div className="w-full">
                                 <Label
                                     className="pl-4 mb-1"
+                                    htmlFor="minAmount"
+                                >
+                                    Donator will donate at least this amount
+                                </Label>
+                                <Input
+                                    placeholder="Minimum Donation Amount"
+                                    type="number"
+                                    name="minAmount"
+                                    defaultValue={
+                                        currentCampaign?.minAmount || 1
+                                    }
+                                />
+                            </div>
+                        </div>
+                        <div className="flex gap-4">
+                            <div className="w-full">
+                                <Label
+                                    className="pl-4 mb-1"
                                     htmlFor="photo-url"
                                 >
                                     Banner Image (Provide your photo url)
@@ -233,6 +289,40 @@ const UpdateCampaign = () => {
                                     name="photoURL"
                                     defaultValue={currentCampaign?.photoURL}
                                 />
+                            </div>
+                            <div className="w-full">
+                                <Label
+                                    className="pl-4 mb-1"
+                                    htmlFor="photo-url"
+                                >
+                                    Campaign Type
+                                </Label>
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <div className="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive">
+                                            {campaignType || "Campaign Type"}
+                                        </div>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent>
+                                        <DropdownMenuLabel>
+                                            Choose your campaign type
+                                        </DropdownMenuLabel>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuRadioGroup
+                                            value={campaignType}
+                                            onValueChange={setCampaignType}
+                                        >
+                                            {campaignTypes.map((type) => (
+                                                <DropdownMenuRadioItem
+                                                    value={type.type}
+                                                    key={type._id}
+                                                >
+                                                    {type.type}
+                                                </DropdownMenuRadioItem>
+                                            ))}
+                                        </DropdownMenuRadioGroup>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
                             </div>
                         </div>
                         <div className="flex gap-8">
@@ -302,7 +392,9 @@ const UpdateCampaign = () => {
                             <Link to={-1}>
                                 <Button variant="outline">Cancel</Button>
                             </Link>
-                            <Button type="submit">Confirm Campaign Edit</Button>
+                            <Button type="submit" className="cursor-pointer">
+                                Confirm Campaign Edit
+                            </Button>
                         </div>
                     </form>
                 </div>

@@ -55,7 +55,10 @@ const SignUp = () => {
     const continueWithGoogle = () => {
         signInWithGooglePopUp()
             .then((res) => {
-                console.log(res.user);
+                if (res.user) {
+                    navigate(location.state ? location.state : "/");
+                    toast.success("Signed up successfully!");
+                }
             })
             .catch((error) => {
                 console.log(error);

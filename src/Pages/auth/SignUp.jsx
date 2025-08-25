@@ -66,12 +66,12 @@ const SignUp = () => {
         <div className="flex flex-col min-h-screen">
             <Navbar />
             <div className="grow">
-                <h1 className="text-5xl text-center font-semibold mt-16">
+                <h1 className="md:text-5xl text-3xl text-center font-semibold md:mt-16 mt-10">
                     Sign Up Now!
                 </h1>
                 <form
                     onSubmit={signUpWithEmailPasswordAndOthers}
-                    className="w-md mx-auto space-y-5 mt-10 pb-10 border-b border-green-800/50"
+                    className="md:w-md mx-auto space-y-5 mt-10 pb-10 border-b border-green-800/50 w-11/12"
                 >
                     <div className="w-full">
                         <Label className="pl-4 mb-1" htmlFor="name">
@@ -85,7 +85,6 @@ const SignUp = () => {
                             name="name"
                         />
                     </div>
-
                     <div className="w-full">
                         <Label className="pl-4 mb-1" htmlFor="email">
                             Email

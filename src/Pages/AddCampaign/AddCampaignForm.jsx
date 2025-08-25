@@ -114,11 +114,14 @@ const AddCampaignForm = () => {
         <div className="my-10 w-11/12 mx-auto">
             <form
                 onSubmit={handleAddCampaign}
-                className="w-4/6 mx-auto space-y-5"
+                className="md:w-4/6 w-11/12 mx-auto space-y-5"
             >
-                <div className="flex gap-8">
+                <div className="flex md:flex-row flex-col md:gap-8 gap-5">
                     <div className="w-full">
-                        <Label className="pl-4 mb-1" htmlFor="campaign-title">
+                        <Label
+                            className="md:pl-4 pl-2 mb-1"
+                            htmlFor="campaign-title"
+                        >
                             Campaign Title
                         </Label>
                         <Input
@@ -129,7 +132,10 @@ const AddCampaignForm = () => {
                         />
                     </div>
                     <div className="w-full">
-                        <Label className="pl-4 mb-1" htmlFor="description">
+                        <Label
+                            className="md:pl-4 pl-2 mb-1"
+                            htmlFor="description"
+                        >
                             Description
                         </Label>
                         <Input
@@ -140,9 +146,12 @@ const AddCampaignForm = () => {
                         />
                     </div>
                 </div>
-                <div className="flex gap-8">
+                <div className="flex md:flex-row flex-col md:gap-8 gap-5">
                     <div className="w-full">
-                        <Label className="pl-4 mb-1" htmlFor="starting-date">
+                        <Label
+                            className="md:pl-4 pl-2 mb-1"
+                            htmlFor="starting-date"
+                        >
                             Starting from (MM/DD/YYYY)
                         </Label>
                         <Popover
@@ -178,7 +187,10 @@ const AddCampaignForm = () => {
                         </Popover>
                     </div>
                     <div className="w-full">
-                        <Label className="pl-4 mb-1" htmlFor="closing-date">
+                        <Label
+                            className="md:pl-4 pl-2 mb-1"
+                            htmlFor="closing-date"
+                        >
                             Closing at (MM/DD/YYYY)
                         </Label>
                         <Popover
@@ -214,9 +226,12 @@ const AddCampaignForm = () => {
                         </Popover>
                     </div>
                 </div>
-                <div className="flex gap-8">
+                <div className="flex md:flex-row flex-col md:gap-8 gap-5">
                     <div className="w-full">
-                        <Label className="pl-4 mb-1" htmlFor="goal-amount">
+                        <Label
+                            className="md:pl-4 pl-2 mb-1"
+                            htmlFor="goal-amount"
+                        >
                             Goal Amount
                         </Label>
                         <Input
@@ -226,7 +241,10 @@ const AddCampaignForm = () => {
                         />
                     </div>
                     <div className="w-full">
-                        <Label className="pl-4 mb-1" htmlFor="minAmount">
+                        <Label
+                            className="md:pl-4 pl-2 mb-1"
+                            htmlFor="minAmount"
+                        >
                             Donator will donate at least this amount
                         </Label>
                         <Input
@@ -236,9 +254,12 @@ const AddCampaignForm = () => {
                         />
                     </div>
                 </div>
-                <div className="flex gap-8">
+                <div className="flex md:flex-row flex-col md:gap-8 gap-5">
                     <div className="w-full">
-                        <Label className="pl-4 mb-1" htmlFor="photo-url">
+                        <Label
+                            className="md:pl-4 pl-2 mb-1"
+                            htmlFor="photo-url"
+                        >
                             Banner Image (Provide your photo url)
                         </Label>
                         <Input
@@ -249,7 +270,10 @@ const AddCampaignForm = () => {
                         />
                     </div>
                     <div className="w-full">
-                        <Label className="pl-4 mb-1" htmlFor="photo-url">
+                        <Label
+                            className="md:pl-4 pl-2 mb-1"
+                            htmlFor="photo-url"
+                        >
                             Campaign Type
                         </Label>
                         <DropdownMenu>
@@ -280,14 +304,11 @@ const AddCampaignForm = () => {
                         </DropdownMenu>
                     </div>
                 </div>
-                <div className="flex gap-8">
+                <div className="flex md:flex-row flex-col md:gap-8 gap-5">
                     <div className="w-full">
-                        <Label className="pl-4 mb-1" htmlFor="location">
-                            Location
-                            <span className="text-xs -ml-1.5">
-                                (Mention is it a city, village, road or
-                                something else)
-                            </span>
+                        <Label className="md:pl-4 pl-2 mb-1" htmlFor="location">
+                            Location (Mention is it a city, village, road or
+                            something else)
                         </Label>
                         <Input
                             placeholder="Location (e.g: Ghutghutiya gram or, Dhanmondi-1209)"
@@ -296,7 +317,10 @@ const AddCampaignForm = () => {
                         />
                     </div>
                     <div className="w-full">
-                        <Label className="pl-4 mb-1" htmlFor="phoneNumber">
+                        <Label
+                            className="md:pl-4 pl-2 mb-1"
+                            htmlFor="phoneNumber"
+                        >
                             Contact (if possible provide your whatsapp number)
                         </Label>
                         <Input
@@ -308,9 +332,12 @@ const AddCampaignForm = () => {
                         />
                     </div>
                 </div>
-                <div className="flex gap-8">
+                <div className="flex md:flex-row flex-col md:gap-8 gap-5">
                     <div className="w-full">
-                        <Label className="pl-4 mb-1" htmlFor="creatorName">
+                        <Label
+                            className="md:pl-4 pl-2 mb-1"
+                            htmlFor="creatorName"
+                        >
                             Creating by
                         </Label>
                         <Input
@@ -322,7 +349,10 @@ const AddCampaignForm = () => {
                         />
                     </div>
                     <div className="w-full">
-                        <Label className="pl-4 mb-1" htmlFor="creatorEmail">
+                        <Label
+                            className="md:pl-4 pl-2 mb-1"
+                            htmlFor="creatorEmail"
+                        >
                             Creator Email
                         </Label>
                         <Input

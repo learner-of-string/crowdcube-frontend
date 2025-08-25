@@ -56,7 +56,7 @@ const RunningCampaign = () => {
 
     return (
         <div className="w-11/12 mx-auto space-y-5">
-            <h1 className="text-5xl text-center font-semibold">
+            <h1 className="md:text-5xl text-2xl text-center font-semibold">
                 Running Campaign({runningCampaigns.length})
             </h1>
             <section className="grid md:grid-cols-3 grid-cols-1 gap-5">
@@ -75,7 +75,7 @@ const RunningCampaign = () => {
                                 <h1 className="text-2xl font-semibold py-2">
                                     {campaign?.campaignName}
                                 </h1>
-                                <p className="text-gray-600">
+                                <p className="text-gray-600 line-clamp-2">
                                     {campaign?.description}
                                 </p>
                             </div>

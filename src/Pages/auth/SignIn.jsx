@@ -28,6 +28,7 @@ const SignIn = () => {
             })
             .catch((error) => {
                 console.log(error);
+                toast.error(error.message);
             });
     };
 
@@ -41,6 +42,7 @@ const SignIn = () => {
             })
             .catch((error) => {
                 console.log(error);
+                toast.error(error.message);
             });
     };
 
@@ -49,10 +51,10 @@ const SignIn = () => {
             <Navbar />
             <div className="grow">
                 <form
-                    className="w-sm mx-auto space-y-5 mt-10 pb-10 border-b border-green-800/50"
+                    className="md:w-sm w-11/12 mx-auto space-y-5 mt-10 pb-10 border-b border-green-800/50"
                     onSubmit={signInUserWithEmailAndPassword}
                 >
-                    <h1 className="text-5xl text-center font-semibold mt-16">
+                    <h1 className="md:text-5xl text-center font-semibold md:mt-16 mt-10 text-3xl">
                         Sign in here!
                     </h1>
                     <div className="w-full">

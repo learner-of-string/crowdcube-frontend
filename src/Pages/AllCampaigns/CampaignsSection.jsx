@@ -105,7 +105,10 @@ const CampaignsSection = () => {
                                         to={`/campaigns/${campaign._id}`}
                                         className="cursor-pointer"
                                     >
-                                        <Button variant="link" className="px-0">
+                                        <Button
+                                            variant="link"
+                                            className="px-0 cursor-pointer"
+                                        >
                                             See More
                                         </Button>
                                     </Link>

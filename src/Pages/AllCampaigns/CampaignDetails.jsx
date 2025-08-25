@@ -116,14 +116,14 @@ const CampaignDetails = () => {
                             className="w-full h-72 object-cover rounded-2xl"
                         />
                     </div>
-                    <div className="space-y-4 text-xl">
+                    <div className="md:space-y-4 space-y-1.5 md:text-xl text-base">
                         <TypeIdentifier
                             campType={currentCampaign?.campaignType || "Others"}
                         />
-                        <h1 className="text-3xl font-medium">
+                        <h1 className="md:text-3xl text-xl font-medium">
                             {currentCampaign?.campaignName}
                         </h1>
-                        <p className="text-xl">
+                        <p className="md:text-xl text-base">
                             {currentCampaign?.description}
                         </p>
                         <p className="flex">
@@ -181,10 +181,10 @@ const CampaignDetails = () => {
                     </div>
                 </div>
                 <div className="mt-5">
-                    <h2 className="text-3xl font-semibold text-center my-5">
+                    <h2 className="md:text-3xl text-xl font-semibold text-center md:my-5 my-3">
                         Fund collector information
                     </h2>
-                    <div className="text-xl">
+                    <div className="md:text-xl text-base">
                         <p>Collector Name: {currentCampaign?.creatorName}</p>
                         <p>Phone Number: {currentCampaign?.phoneNumber}</p>
                         <p>Email: {currentCampaign?.creatorEmail}</p>
@@ -220,7 +220,7 @@ const CampaignDetails = () => {
                                         </AlertDialogCancel>
                                         <AlertDialogAction
                                             onClick={handleDelete}
-                                            className="bg-red-600"
+                                            className="hover:bg-red-500 bg-rose-600"
                                         >
                                             Yes Delete!
                                         </AlertDialogAction>

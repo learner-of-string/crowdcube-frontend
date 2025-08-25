@@ -1,12 +1,74 @@
-# React + Vite
+<!-- CrowdCube README.md -->
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# CrowdCube
 
-Currently, two official plugins are available:
+Welcome to **CrowdCube** – a modern, community-driven crowdfunding platform built with React, Vite, and Firebase. 🚀
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Features
 
-## Expanding the ESLint configuration
+- **Campaign Discovery:** Browse, search, and explore a variety of fundraising campaigns.
+- **User Authentication:** Secure sign-up/sign-in with email/password and Google.
+- **Personal Dashboard:** Manage your profile, view your campaigns, and track your activity.
+- **Create & Manage Campaigns:** Start new campaigns, edit details, and monitor progress.
+- **Donation System:** Donate to campaigns with real-time updates and minimum donation enforcement.
+- **Responsive UI:** Accessible design using Tailwind CSS and Radix UI components.
+- **Real-Time Updates:** All campaign and user data is synced live with Firebase.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🛠️ Tech Stack
+
+- **Frontend:** React 19, Vite, Tailwind CSS, Radix UI, Lucide Icons
+- **Backend:** Firebase (Authentication & Hosting)
+- **Routing:** React Router DOM
+- **State Management:** React Context API
+- **Utilities:** date-fns, clsx, class-variance-authority, sweetalert2, sonner
+
+## 📦 Getting Started
+
+1. **Clone the repository:**
+	```bash
+	git clone https://github.com/learner-of-string/crowdcube-frontend.git
+	cd crowdcube-frontend
+	```
+
+2. **Install dependencies:**
+	```bash
+	pnpm install
+	```
+
+3. **Set up environment variables:**
+	- Copy `.env.example` to `.env` and fill in your Firebase and server details.
+
+4. **Run the development server:**
+	```bash
+	pnpm dev
+	```
+
+5. **Build for production:**
+	```bash
+	pnpm build
+	```
+
+6. **Deploy:**
+	```bash
+	pnpm deploy
+	```
+
+## 📁 Project Structure
+
+- `src/Pages/` – Main app pages (Home, Campaigns, Dashboard, Auth, etc.)
+- `src/components/ui/` – Reusable UI components (Button, Dialog, Tooltip, etc.)
+- `src/Context/` – React Contexts (e.g., Auth)
+- `src/Provider/` – Context Providers
+- `src/firebase/` – Firebase configuration
+- `src/lib/` – Utility functions
+
+## 🤝 Contributing
+
+We welcome contributions! Please fork the repo, create a branch, and submit a pull request.
+
+## 🦄 License
+
+MIT
+
+
+_Made with a disgusting vibe by an উজবুক🫠._

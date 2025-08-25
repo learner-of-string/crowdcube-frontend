@@ -2,6 +2,10 @@
 
 # CrowdCube
 
+## 🚀 Live Demo
+
+[https://crowdcube-5d90b.web.app/](https://crowdcube-5d90b.web.app/)
+
 Welcome to **CrowdCube** – a modern, community-driven crowdfunding platform built with React, Vite, and Firebase. 🚀
 
 ## ✨ Features

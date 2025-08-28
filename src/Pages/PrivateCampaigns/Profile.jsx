@@ -1,13 +1,13 @@
-import { SquarePen } from "lucide-react";
+import defaultProfile from "@/assets/defaultProfile.svg";
 import {
     Tooltip,
     TooltipContent,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { SquarePen } from "lucide-react";
 import { useContext } from "react";
-import { AuthContext } from "../../Context/AuthContext";
-import defaultProfile from "@/assets/defaultProfile.svg";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../Context/AuthContext";
 
 const Profile = () => {
     const { user } = useContext(AuthContext);

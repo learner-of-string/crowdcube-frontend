@@ -1,3 +1,14 @@
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/Button";
 import {
     Dialog,
@@ -17,17 +28,6 @@ import { AuthContext } from "../../Context/AuthContext";
 import Footer from "../Home/Footer";
 import Navbar from "../Home/Navbar";
 import TypeIdentifier from "./TypeIdentifier";
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 
 const CampaignDetails = () => {
     const [currentCampaign, setCurrentCampaign] = useState(null);
@@ -43,14 +43,16 @@ const CampaignDetails = () => {
         fetch(`${import.meta.env.VITE_serverLink}/campaigns/${id}`)
             .then((res) => res.json())
             .then((data) => {
-                setCurrentCampaign({
-                    ...data,
-                    collectedYet: data.collectedYet || 0,
-                });
-                if (Date.now() > new Date(data?.closingDate).getTime()) {
-                    setIsRunning(false);
-                } else {
-                    setIsRunning(true);
+                if (data) {
+                    setCurrentCampaign({
+                        ...data,
+                        collectedYet: data.collectedYet || 0,
+                    });
+                    if (Date.now() > new Date(data?.closingDate).getTime()) {
+                        setIsRunning(false);
+                    } else {
+                        setIsRunning(true);
+                    }
                 }
             })
             .catch((error) => console.log(error));

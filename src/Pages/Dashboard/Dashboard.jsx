@@ -1,10 +1,10 @@
+import defaultProfile from "@/assets/defaultProfile.svg";
+import { Button } from "@/components/ui/button";
 import { useContext } from "react";
+import { toast } from "sonner";
+import { AuthContext } from "../../Context/AuthContext";
 import Footer from "../Home/Footer";
 import Navbar from "../Home/Navbar";
-import defaultProfile from "@/assets/defaultProfile.svg";
-import { AuthContext } from "../../Context/AuthContext";
-import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
 
 const Dashboard = () => {
     const { user, signOutUser, setUser } = useContext(AuthContext);

@@ -1,25 +1,31 @@
 import { createBrowserRouter } from "react-router-dom";
-import AllCampaigns from "../Pages/AllCampaigns/AllCampaigns";
-import Home from "../Pages/Home/Home";
-import Root from "../Root";
 import AddACampaign from "../Pages/AddCampaign/AddACampaign";
-import SignIn from "../Pages/auth/SignIn";
-import SignUp from "../Pages/auth/SignUp";
-import MyCampaigns from "../Pages/PrivateCampaigns/MyCampaigns";
-import PrivateRouter from "./PrivateRouter";
-import Dashboard from "../Pages/Dashboard/Dashboard";
-import PreventedRouter from "./PreventedRoute";
+import AllCampaigns from "../Pages/AllCampaigns/AllCampaigns";
 import CampaignDetails from "../Pages/AllCampaigns/CampaignDetails";
 import UpdateCampaign from "../Pages/AllCampaigns/UpdateCampaign";
+import SignIn from "../Pages/auth/SignIn";
+import SignUp from "../Pages/auth/SignUp";
+import Dashboard from "../Pages/Dashboard/Dashboard";
+import ErrorPage from "../Pages/ErrorPage";
+import Home from "../Pages/Home/Home";
+import MyCampaigns from "../Pages/PrivateCampaigns/MyCampaigns";
+import Root from "../Root";
+import PreventedRouter from "./PreventedRoute";
+import PrivateRouter from "./PrivateRouter";
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: <Root />,
+        errorElement: <ErrorPage />,
         children: [
             {
                 path: "/",
                 element: <Home />,
+            },
+            {
+                path: "*",
+                element: <ErrorPage />,
             },
             {
                 path: "/campaigns",

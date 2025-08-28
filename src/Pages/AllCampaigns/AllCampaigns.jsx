@@ -1,5 +1,5 @@
-import Navbar from "../Home/Navbar";
 import Footer from "../Home/Footer";
+import Navbar from "../Home/Navbar";
 import CampaignsSection from "./CampaignsSection";
 
 const AllCampaigns = () => {

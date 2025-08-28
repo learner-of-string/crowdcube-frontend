@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { Vortex } from "react-loader-spinner";
+import { Link } from "react-router-dom";
 
 const RunningCampaign = () => {
     const [runningCampaigns, setRunningCampaigns] = useState([]);

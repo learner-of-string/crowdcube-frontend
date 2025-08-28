@@ -1,5 +1,3 @@
-import Footer from "../Home/Footer";
-import Navbar from "../Home/Navbar";
 import googleSvg from "@/assets/google.svg";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,6 +6,8 @@ import { useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { AuthContext } from "../../Context/AuthContext";
+import Footer from "../Home/Footer";
+import Navbar from "../Home/Navbar";
 
 const SignUp = () => {
     const navigate = useNavigate();

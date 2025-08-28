@@ -43,16 +43,14 @@ const CampaignDetails = () => {
         fetch(`${import.meta.env.VITE_serverLink}/campaigns/${id}`)
             .then((res) => res.json())
             .then((data) => {
-                if (data) {
-                    setCurrentCampaign({
-                        ...data,
-                        collectedYet: data.collectedYet || 0,
-                    });
-                    if (Date.now() > new Date(data?.closingDate).getTime()) {
-                        setIsRunning(false);
-                    } else {
-                        setIsRunning(true);
-                    }
+                setCurrentCampaign({
+                    ...data,
+                    collectedYet: data.collectedYet || 0,
+                });
+                if (Date.now() > new Date(data?.closingDate).getTime()) {
+                    setIsRunning(false);
+                } else {
+                    setIsRunning(true);
                 }
             })
             .catch((error) => console.log(error));
